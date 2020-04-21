@@ -9,6 +9,8 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
+            - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
+            - run: src/environments/environment.ts
             - run: npm install
             - run: npm run build
 workflows:
