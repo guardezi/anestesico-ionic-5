@@ -29,9 +29,10 @@ workflows:
       jobs:
         - build-for-debug
     build-for-prod:
-      filters:
-        branches:
-          only: master
       jobs:
-        - build-for-prod
+        - build-for-prod:
+              filters:
+                branches:
+                  only: master
+              
           
