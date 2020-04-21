@@ -30,7 +30,7 @@ workflows:
         - build-for-debug
     build-for-prod:
       jobs:
-        - build-for-prod
-        - filters:
+        - build-for-prod:
+          filters:
             branches:
-            only: master
+              only: /master
