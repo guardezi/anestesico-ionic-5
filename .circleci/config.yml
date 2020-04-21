@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-and-test:
+  build-for-debug:
     executor:
       name: node/default
     steps:
@@ -13,7 +13,21 @@ jobs:
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
             - run: npm install
             - run: npm run build
+  build-for-prod:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
+            - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
+            - run: npm install
+            - run: npm run build --prod
 workflows:
-    build-and-test:
+    build-for-debug:
       jobs:
-        - build-and-test
+        - build-for-debug
+    build-for-prod:
+      jobs:
+        - build-for-prod
