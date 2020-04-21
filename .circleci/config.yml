@@ -25,14 +25,12 @@ jobs:
             - run: npm install
             - run: npm run build --prod
 workflows:
-    build-for-debug:
-      jobs:
-        - build-for-debug
-    build-for-prod:
-      jobs:
-        - build-for-prod:
-              filters:
-                branches:
-                  only: master
-              
-          
+  build-for-debug:
+    jobs:
+      - build-for-debug
+  build-for-prod:
+    jobs:
+      - build-for-prod:
+          filters:
+            branches:
+              only: master
