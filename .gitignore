@@ -17,6 +17,7 @@ $RECYCLE.BIN/
 log.txt
 npm-debug.log*
 **google-services.json
+**firebase-key.json
 /.idea
 /.ionic
 /.sass-cache

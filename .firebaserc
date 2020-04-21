@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "dental-anesthesic": {
+      "hosting": {
+        "app": [
+          "dental-anesthesic"
+        ]
+      }
+    }
+  }
+}
