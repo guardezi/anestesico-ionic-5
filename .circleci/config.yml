@@ -14,9 +14,6 @@ jobs:
             - run: npm install
             - run: npm run build
   build-for-prod:
-    filters:
-      branches:
-        only: /master
     executor:
       name: node/default
     steps:
@@ -32,5 +29,8 @@ workflows:
       jobs:
         - build-for-debug
     build-for-prod:
+      filters:
+        branches:
+          only: /master
       jobs:
         - build-for-prod
