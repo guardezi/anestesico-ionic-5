@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Anestesico Dental</string>
+    <string name="title_activity_main">Anestesico Dental</string>
+    <string name="package_name">com.guardezi.dentalanesthetic</string>
+    <string name="custom_url_scheme">com.guardezi.dentalanesthetic</string>
+</resources>
