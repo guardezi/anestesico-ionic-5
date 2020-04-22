@@ -13,11 +13,13 @@ jobs:
           steps:
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
+            - run: echo $GOOGLE_SVC | base64 --decode > google-services.json
             - run: npm install firebase
             - run: npm install
             - run: npm run build
             - run: npx cap sync android
             - run: npx cap copy android
+            - run: echo $GOOGLE_SVC | base64 --decode > android/app/google-services.json
             - run: cd android && ./gradlew build
             # - run: npm 
   build-for-prod:
