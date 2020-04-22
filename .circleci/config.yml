@@ -11,7 +11,7 @@ jobs:
           steps:
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
-            - run: npm install -g firebase
+            - run: npm install firebase
             - run: npm install
             - run: npm run build
             # - run: npm 
