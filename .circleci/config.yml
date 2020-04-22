@@ -14,7 +14,7 @@ jobs:
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
             - run: echo $GOOGLE_SVC | base64 --decode > google-services.json
-            - run: npm install firebase
+            - run: npm install -g firebase
             - run: npm install
             - run: npm run build
             - run: npx cap sync android
@@ -27,10 +27,7 @@ jobs:
                 key: node-deps-v1-{{ .Branch }}-{{ checksum "package.json" }}
                 paths: 
                 - ~/project/node_modules
-                - ~/project/.gradle
-                
-
-            # - run: npm 
+                - ~/.gradle
   build-for-prod:
     executor:
       name: node/default
