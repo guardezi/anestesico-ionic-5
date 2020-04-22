@@ -1,0 +1,8 @@
+{
+  "appId": "com.guardezi.dentalanesthetic",
+  "appName": "Anestesico Dental",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}
