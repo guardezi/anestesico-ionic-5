@@ -38,6 +38,7 @@ jobs:
             - run: npx cap copy android
             - run: cd android
             - run: ./gradlew build
+            - run: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $APP_FIREBASE --release-notes "versao atualizada" --groups "develop" --token $FB_TOKEN
 workflows:
   build-for-debug:
     jobs:
