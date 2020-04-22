@@ -2,7 +2,32 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-and-test:
+  build-for-debug:
+    docker:
+      - image: circleci/android:api-29-node
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
+            - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
+            - run: echo $GOOGLE_SVC | base64 --decode > google-services.json
+            - run: npm install
+            - run: npm run build
+            - run: npx cap sync android
+            - run: npx cap copy android
+            - run: echo $GOOGLE_SVC | base64 --decode > android/app/google-services.json
+            - run: python updateAndroid.py
+            - run: cd android && ./gradlew build
+            - run: ./node_modules/.bin/firebase appdistribution:distribute android/app/build/outputs/apk/debug/app-debug.apk --app $APP_FIREBASE --release-notes "versao atualizada" --groups "develop" --token $FB_TOKEN
+            - save_cache:
+                key: node-deps-v1-{{ .Branch }}-{{ checksum "package.json" }}
+                paths: 
+                - ~/project/node_modules
+                - ~/.gradle
+  build-for-prod:
     executor:
       name: node/default
     steps:
@@ -12,8 +37,49 @@ jobs:
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
             - run: npm install
-            - run: npm run build
+            - run: npm run build --prod
+            - run: npx cap sync android
+            - run: npx cap copy android
+            - run: cd android
+            - run: ./gradlew build
+            - run: firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $APP_FIREBASE --release-notes "versao atualizada" --groups "develop" --token $FB_TOKEN
 workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+  build-for-debug:
+    jobs:
+      - build-for-debug
+  build-for-prod:
+    jobs:
+      - build-for-prod:
+          filters:
+            branches:
+              only: master
+
+
+
+# version: 0.2
+# phases:
+#   install:
+#     runtime-versions:
+#       android: 29
+#       java: openjdk8
+#       nodejs: 10
+#   pre_build:
+#     commands:
+#         - npm install -g firebase-tools @angular/cli ionic
+#         - npm cache clean --force
+#         - npm i
+#   build:
+#     commands:
+#         - ionic build
+#         # - npx cap add android
+#         - npx cap sync android
+#         - npx cap copy android
+#         - npx cap update android
+#         - cd android
+#         - ./gradlew build
+#   post_build:
+#     commands:
+#         - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+#         - firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $APP_FIREBASE --release-notes "$(echo "version" $CODEBUILD_BUILD_NUMBER - $COMMIT_HASH) " --groups "Develop, Stage" --token $TOKEN_FIREBASE
+
+
