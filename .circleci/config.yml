@@ -3,8 +3,10 @@ orbs:
   node: circleci/node@1.1.6
 jobs:
   build-for-debug:
-    executor:
-      name: node/default
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - node/with-cache:
