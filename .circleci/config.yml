@@ -21,7 +21,7 @@ jobs:
             - run: echo $GOOGLE_SVC | base64 --decode > android/app/google-services.json
             - run: python updateAndroid.py
             - run: cd android && ./gradlew build
-            - run: ./node_modules/.bin/firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $APP_FIREBASE --release-notes "versao atualizada" --groups "develop" --token $FB_TOKEN
+            - run: ./node_modules/.bin/firebase appdistribution:distribute android/app/build/outputs/apk/debug/app-debug.apk --app $APP_FIREBASE --release-notes "versao atualizada" --groups "develop" --token $FB_TOKEN
             - save_cache:
                 key: node-deps-v1-{{ .Branch }}-{{ checksum "package.json" }}
                 paths: 
