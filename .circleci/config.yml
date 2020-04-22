@@ -11,8 +11,10 @@ jobs:
           steps:
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
+            - run: npm install -g firebase
             - run: npm install
             - run: npm run build
+            # - run: npm 
   build-for-prod:
     executor:
       name: node/default
@@ -24,6 +26,8 @@ jobs:
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
             - run: npm install
             - run: npm run build --prod
+            - run: npx cap sync android
+            - run: npx cap copy android
 workflows:
   build-for-debug:
     jobs:
@@ -34,3 +38,33 @@ workflows:
           filters:
             branches:
               only: master
+
+
+
+# version: 0.2
+# phases:
+#   install:
+#     runtime-versions:
+#       android: 29
+#       java: openjdk8
+#       nodejs: 10
+#   pre_build:
+#     commands:
+#         - npm install -g firebase-tools @angular/cli ionic
+#         - npm cache clean --force
+#         - npm i
+#   build:
+#     commands:
+#         - ionic build
+#         # - npx cap add android
+#         - npx cap sync android
+#         - npx cap copy android
+#         - npx cap update android
+#         - cd android
+#         - ./gradlew build
+#   post_build:
+#     commands:
+#         - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+#         - firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app $APP_FIREBASE --release-notes "$(echo "version" $CODEBUILD_BUILD_NUMBER - $COMMIT_HASH) " --groups "Develop, Stage" --token $TOKEN_FIREBASE
+
+
