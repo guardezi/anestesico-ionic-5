@@ -14,6 +14,10 @@ jobs:
             - run: npm install firebase
             - run: npm install
             - run: npm run build
+            - run: npx cap sync android
+            - run: npx cap copy android
+            - run: cd android
+            - run: ./gradlew build
             # - run: npm 
   build-for-prod:
     executor:
