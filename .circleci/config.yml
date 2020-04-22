@@ -38,7 +38,9 @@ jobs:
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.prod.ts
             - run: echo $PROD_ENV | base64 --decode > src/environments/environment.ts
             - run: npm install
-            - run: ./node_modules/@angular/cli/bin/ng deploy
+            - run: ./node_modules/@ionic/cli/bin/ionic build --prod
+            ./node_modules/.bin/firebase deploy --only hosting --project dental-anesthesic --token $FB_TOKEN
+            
   build-for-prod:
     executor:
       name: node/default
