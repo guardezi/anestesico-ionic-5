@@ -16,8 +16,7 @@ jobs:
             - run: npm run build
             - run: npx cap sync android
             - run: npx cap copy android
-            - run: cd android
-            - run: ./gradlew build
+            - run: cd android && ./gradlew build
             # - run: npm 
   build-for-prod:
     executor:
