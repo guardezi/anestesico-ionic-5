@@ -20,6 +20,7 @@ jobs:
             - run: npx cap sync android
             - run: npx cap copy android
             - run: echo $GOOGLE_SVC | base64 --decode > android/app/google-services.json
+            - run: python updateAndroid.py
             - run: cd android && ./gradlew build
             # - run: npm 
   build-for-prod:
