@@ -28,6 +28,8 @@ jobs:
             - run: npm run build --prod
             - run: npx cap sync android
             - run: npx cap copy android
+            - run: cd android
+            - run: ./gradlew build
 workflows:
   build-for-debug:
     jobs:
